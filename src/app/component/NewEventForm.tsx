@@ -38,7 +38,7 @@ export default function NewEventForm({
           onChange={handleChange}
         />
         <label htmlFor="tasks">Tasks</label>
-        <input name="tasks" id="tasks" type="text" onBlur={handleChange} />
+        <input name="tasks" id="tasks" type="text" onChange={handleChange} />
         <button>submit</button>
       </form>
       <button onClick={handleClose}>close</button>

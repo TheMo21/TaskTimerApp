@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import EventFormData from "../../../types/EventFormData";
+import EventFormData from "../types/EventFormData";
 
 export default function useFormData(): [
   EventFormData,
