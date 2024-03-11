@@ -1,27 +1,18 @@
 "use client";
-import {
-  ChangeEvent,
-  FocusEvent,
-  FormEvent,
-  MouseEvent,
-  Suspense,
-  useState,
-} from "react";
+import { ChangeEvent, FocusEvent, FormEvent, useState } from "react";
 
 import useFetchEvents from "../utils/useFetchEvents";
 import TaskItem from "./TaskItem";
 import ScheduleEvent from "../types/ScheduleEvent";
 import useFormData from "../utils/useFormData";
-import { format } from "date-fns";
 import Task from "../types/Task";
 import EventItem from "./EventItem";
 import NewEventForm from "./NewEventForm";
 import { v4 as uuidv4 } from "uuid";
-import { id } from "date-fns/locale";
 
 export default function DashBoard() {
   // State for managing events
-  const [events, fetchEvents] = useFetchEvents();
+  const [events, fetchEvents, postEvent, deleteEvent] = useFetchEvents();
 
   //State for formData
   const [formData, setFormData] = useFormData();
@@ -53,11 +44,8 @@ export default function DashBoard() {
       tasks
     );
 
-    const res = await fetch("http://localhost:3000/api/events", {
-      method: "POST",
-      body: JSON.stringify(newEvent),
-    });
-
+    //send post request to api
+    const res = await postEvent(JSON.stringify(newEvent));
     console.log(res);
     fetchEvents();
   };
@@ -75,10 +63,11 @@ export default function DashBoard() {
     <>
       {/* Event side bar */}
       <div className="basis-1/5 border-r overflow-y-scroll">
-        {events.map(({ id, title, deadline }, index) => (
+        {events.map(({ title, deadline }, index) => (
           <EventItem
             className={
-              (selectedIndex === index ? "bg-blue-500" : "") + " p-3 rounded-md"
+              (selectedIndex === index ? " bg-blue-500 " : "") +
+              "p-3 transition-colors duration-300"
             }
             title={title}
             deadline={deadline}
@@ -88,27 +77,17 @@ export default function DashBoard() {
             }}
             key={index}
           />
-          //TODO implement delete button
         ))}
+        <button
+          className="w-full bg-green-500"
+          onClick={() => setShowForm(true)}
+        >
+          <h2 className="font-bold text-white">Add Event</h2>
+        </button>
       </div>
 
       {/* Tasks */}
       <div className="basis-4/5 flex flex-col items-center relative">
-        {events.length == 0 ? (
-          <div className="m-4 absolute bottom-0 right-0 flex gap-2">
-            <button
-              className="rounded-full bg-red-500"
-              onClick={() => {
-                // Show the form when the button is clicked
-                setShowForm(true);
-              }}
-            >
-              add
-            </button>{" "}
-          </div>
-        ) : (
-          <></>
-        )}
         {/* Display form or event details */}
         {showFrom ? (
           <NewEventForm
@@ -136,29 +115,12 @@ export default function DashBoard() {
                 <div className="m-4 absolute bottom-0 right-0 flex gap-2">
                   <button
                     onClick={async () => {
-                      const eventId = events[index].id;
-                      const reqBody = { id: eventId };
-                      const res = await fetch(
-                        "http://localhost:3000/api/events",
-                        {
-                          method: "DELETE",
-                          body: JSON.stringify(reqBody),
-                        }
-                      );
+                      const res = await deleteEvent(events[index].id);
                       console.log(res);
                       fetchEvents();
                     }}
                   >
                     Delete
-                  </button>
-                  <button
-                    className="rounded-full bg-red-500"
-                    onClick={() => {
-                      // Show the form when the button is clicked
-                      setShowForm(true);
-                    }}
-                  >
-                    add
                   </button>
                 </div>
               </>
