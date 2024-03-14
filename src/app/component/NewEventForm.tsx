@@ -4,18 +4,21 @@ import {
   FocusEvent,
   FormEventHandler,
   MouseEventHandler,
+  ReactNode,
 } from "react";
 
 interface Props {
   handleSubmit: FormEventHandler<HTMLFormElement>;
   handleClose: MouseEventHandler;
   handleChange: any;
+  children: ReactNode;
 }
 
 export default function NewEventForm({
   handleSubmit,
   handleClose,
   handleChange,
+  children,
 }: Props) {
   return (
     <>
@@ -38,7 +41,7 @@ export default function NewEventForm({
           onChange={handleChange}
         />
         <label htmlFor="tasks">Tasks</label>
-        <input name="tasks" id="tasks" type="text" onChange={handleChange} />
+        {children}
         <button>submit</button>
       </form>
       <button onClick={handleClose}>close</button>

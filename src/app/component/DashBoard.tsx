@@ -4,7 +4,7 @@ import { ChangeEvent, FocusEvent, FormEvent, useState } from "react";
 import useFetchEvents from "../utils/useFetchEvents";
 import TaskItem from "./TaskItem";
 import ScheduleEvent from "../types/ScheduleEvent";
-import useFormData from "../utils/useFormData";
+import useEventData from "../utils/useFormData";
 import Task from "../types/Task";
 import EventItem from "./EventItem";
 import NewEventForm from "./NewEventForm";
@@ -15,10 +15,10 @@ export default function DashBoard() {
   const [events, fetchEvents, postEvent, deleteEvent] = useFetchEvents();
 
   //State for formData
-  const [formData, setFormData] = useFormData();
+  const [eventData, setEventData] = useEventData();
 
   //State for tasks to be put in form data
-  const [formDataTasks, setFormDataTasks] = useState<Task[]>([]);
+  const [tasksData, setTasksData] = useState<Task[]>([]);
 
   // State for managing the selected event index
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -32,16 +32,15 @@ export default function DashBoard() {
     //hide form again
     setShowForm(false);
 
-    console.log(formData);
+    console.log(eventData);
     //create a task[]
-    const tasks = [formData.tasks].map((task) => new Task(task));
 
     //create a ScheduleEvent
     const newEvent = new ScheduleEvent(
       uuidv4(),
-      formData.title,
-      formData.deadline,
-      tasks
+      eventData.title,
+      eventData.deadline,
+      tasksData
     );
 
     //send post request to api
@@ -50,13 +49,21 @@ export default function DashBoard() {
     fetchEvents();
   };
 
-  const handleFormInputChange = (
-    e: ChangeEvent<HTMLInputElement> | FocusEvent<HTMLInputElement>
-  ) => {
+  const handleFormInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const fieldName = e.target.name;
     const value = e.target.value;
 
-    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+    setEventData((prev) => ({ ...prev, [fieldName]: value }));
+  };
+
+  const handleTaskChange = (
+    index: number,
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const newTasksData = [...tasksData];
+    newTasksData[index].description = event.target.value;
+    setTasksData(newTasksData);
+    console.log(tasksData);
   };
 
   return (
@@ -90,11 +97,28 @@ export default function DashBoard() {
       <div className="basis-4/5 flex flex-col items-center relative">
         {/* Display form or event details */}
         {showFrom ? (
-          <NewEventForm
-            handleSubmit={(e) => handleFormData(e)}
-            handleClose={() => setShowForm(false)}
-            handleChange={handleFormInputChange}
-          />
+          <>
+            <NewEventForm
+              handleSubmit={(e) => handleFormData(e)}
+              handleClose={() => setShowForm(false)}
+              handleChange={handleFormInputChange}
+            >
+              {tasksData.map((taskInput, index) => (
+                <input
+                  name={"task " + index}
+                  id={"task " + index}
+                  type="text"
+                  key={index}
+                  onChange={(e) => handleTaskChange(index, e)}
+                ></input>
+              ))}
+              <button
+                onClick={() => setTasksData((prev) => [...prev, new Task("")])}
+              >
+                add task
+              </button>
+            </NewEventForm>
+          </>
         ) : (
           <div className="w-full flex flex-col justify-between">
             {/* Display tasks for the selected event */}

@@ -1,14 +1,14 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import EventFormData from "../types/EventFormData";
 
-export default function useFormData(): [
+export default function useEventData(): [
   EventFormData,
   Dispatch<SetStateAction<EventFormData>>
 ] {
-  const [formData, setFormData] = useState<EventFormData>({
+  const [eventData, setEventData] = useState<EventFormData>({
     title: "",
     deadline: "",
     tasks: [],
   });
-  return [formData, setFormData];
+  return [eventData, setEventData];
 }
