@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, FocusEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 import useFetchEvents from "../utils/useFetchEvents";
 import TaskItem from "./TaskItem";
@@ -18,7 +18,7 @@ export default function DashBoard() {
   const [eventData, setEventData] = useEventData();
 
   //State for tasks to be put in form data
-  const [tasksData, setTasksData] = useState<Task[]>([]);
+  const [tasksData, setTasksData] = useState<Task[]>([new Task("")]);
 
   // State for managing the selected event index
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -26,6 +26,14 @@ export default function DashBoard() {
   // State for controlling the display of the form
   const [showFrom, setShowForm] = useState(false);
 
+  const clearFormData = () => {
+    setEventData({
+      title: "",
+      deadline: "",
+      tasks: [],
+    });
+    setTasksData([new Task("")]);
+  };
   //change events when submitting form
   const handleFormData = async (e: FormEvent) => {
     e.preventDefault();
@@ -47,6 +55,8 @@ export default function DashBoard() {
     const res = await postEvent(JSON.stringify(newEvent));
     console.log(res);
     fetchEvents();
+
+    clearFormData();
   };
 
   const handleFormInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -104,16 +114,31 @@ export default function DashBoard() {
               handleChange={handleFormInputChange}
             >
               {tasksData.map((taskInput, index) => (
-                <input
-                  name={"task " + index}
-                  id={"task " + index}
-                  type="text"
-                  key={index}
-                  onChange={(e) => handleTaskChange(index, e)}
-                ></input>
+                <div className="flex">
+                  <span>{"No. " + (index + 1)}</span>
+                  <input
+                    name={"task " + index}
+                    id={"task " + index}
+                    type="text"
+                    key={index}
+                    onChange={(e) => handleTaskChange(index, e)}
+                    value={taskInput.description}
+                  ></input>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newtasks = tasksData.toSpliced(index, 1);
+                      setTasksData(newtasks);
+                      console.log(tasksData);
+                    }}
+                  >
+                    remove
+                  </button>
+                </div>
               ))}
               <button
                 onClick={() => setTasksData((prev) => [...prev, new Task("")])}
+                type="button"
               >
                 add task
               </button>
@@ -139,7 +164,7 @@ export default function DashBoard() {
                 <div className="m-4 absolute bottom-0 right-0 flex gap-2">
                   <button
                     onClick={async () => {
-                      const res = await deleteEvent(events[index].id);
+                      const res = await deleteEvent(events[selectedIndex].id);
                       console.log(res);
                       fetchEvents();
                     }}

@@ -4,7 +4,7 @@ import ScheduleEvent from "../types/ScheduleEvent";
 
 // Define the ScheduleEvent schema
 const ScheduleEventSchema = new Schema({
-  id: String,
+  userId: String,
   title: String,
   deadline: String,
   tasks: Array<typeof Task>,

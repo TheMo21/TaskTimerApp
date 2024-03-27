@@ -1,0 +1,3 @@
+// Secret key for JWT
+export const secretKey =
+  "'9a3461d3e5346236b35c89962e9b884e03cce7d9904d2fa4e1965bafa4f49986593131bf3899b7fe62ea33d31d2c7608f4198f7db3a95a6de224fa2821100b0d'";

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ScheduleEvent from "../types/ScheduleEvent";
-
+import { redirect, useRouter } from "next/navigation";
 /**
  * Custom React hook for managing CRUD operations on schedule events.
  * @returns An array containing the list of events, a function to fetch events,
@@ -18,18 +18,26 @@ export default function useFetchEvents(): [
   // API endpoint for schedule events
   const api = "http://localhost:3000/api/events";
 
+  const { push } = useRouter();
+
   /**
    * Fetches schedule events from the API and updates the state.
    * @throws {Error} If the fetch operation fails.
    */
   const fetchEvents = async () => {
-    const res = await fetch(api);
+    const token = localStorage.getItem("token");
+    const res = await fetch(api, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     if (400 <= res.status && res.status <= 499) {
-      throw new Error("Failed to fetch events");
+      //redirect to signIn if fetch failed
+      push("/signIn");
     }
 
     const json = await res.json();
-
+    console.log(json);
     // Map JSON response to ScheduleEvent objects
     const fetchedEvents = json.map(
       (event: ScheduleEvent) =>

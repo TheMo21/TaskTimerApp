@@ -1,6 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/app/utils/dbConnect";
 import { ScheduleEventModel } from "@/app/model/ScheduleEventModel";
+import { verify } from "jsonwebtoken";
+import { secretKey } from "@/secret";
+import { authenticateToken } from "@/pages/middleware/authMiddlewares";
+import { UserModel } from "@/app/model/UserModel";
+import { getEvents } from "@/pages/middleware/fetchEventMiddleware";
 
 /**
  * Next.js API route handler for managing schedule events.
@@ -84,11 +89,12 @@ const handlePostRequest = async (req: NextApiRequest, res: NextApiResponse) => {
  * @param req - Next.js API request object
  * @param res - Next.js API response object
  */
-const handleGetRequest = async (req: NextApiRequest, res: NextApiResponse) => {
-  // Get all schedule events from the database
-  const scheduleEvents = await ScheduleEventModel.find();
-
-  res.status(200).json(scheduleEvents);
+const handleGetRequest = async (req: any, res: NextApiResponse) => {
+  //authenticate JWT token
+  authenticateToken(req, res, () => {});
+  await getEvents(req, res, () => {});
+  const events = req.events;
+  res.status(200).json(events);
 };
 
 /**
