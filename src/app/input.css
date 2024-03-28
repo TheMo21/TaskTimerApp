@@ -9,3 +9,14 @@ body,
   width: 100%;
   height: 100lvh;
 }
+
+.hide {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-20px);
+}
+.show {
+  opacity: 100;
+  visibility: visible;
+  transform: translateX(0px);
+}

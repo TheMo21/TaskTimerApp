@@ -1,17 +1,7 @@
-class Task {
-  description: string;
-  completed: boolean;
+import { Document } from "mongodb";
 
-  constructor(description: string) {
-    this.description = description;
-    this.completed = false;
-  }
-
-  //Mark task as complete
-  //MODIFIES:this
-  complete(): void {
-    this.completed = true;
-  }
+export default interface Task extends Document {
+  userId: string;
+  title: string;
+  group: string;
 }
-
-export default Task;

@@ -1,11 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/app/utils/dbConnect";
 import { ScheduleEventModel } from "@/app/model/ScheduleEventModel";
-import { verify } from "jsonwebtoken";
-import { secretKey } from "@/secret";
 import { authenticateToken } from "@/pages/middleware/authMiddlewares";
-import { UserModel } from "@/app/model/UserModel";
-import { getEvents } from "@/pages/middleware/fetchEventMiddleware";
+import { fetchTaskMiddleware } from "@/pages/middleware/fetchTasksMiddleware";
+import { TaskModel } from "@/app/model/TaskModel";
 
 /**
  * Next.js API route handler for managing schedule events.
@@ -53,29 +51,28 @@ export default async function handler(
  * @param req - Next.js API request object
  * @param res - Next.js API response object
  */
-const handlePostRequest = async (req: NextApiRequest, res: NextApiResponse) => {
+const handlePostRequest = async (req: any, res: NextApiResponse) => {
+  //authenticate JWT token
+  authenticateToken(req, res, () => {});
+  const userId = req.userId;
   try {
     const bodyJson = JSON.parse(req.body);
 
     // Guard for requests without proper fields
-    if (
-      !(bodyJson.id && bodyJson.title && bodyJson.deadline && bodyJson.tasks)
-    ) {
+    if (!bodyJson.title && !bodyJson.group) {
       res.status(400).json({ error: "Bad request" });
       return;
     }
 
-    const { id, title, deadline, tasks } = bodyJson;
+    const { title, group } = bodyJson;
 
     // Create a new ScheduleEvent document
-    const newScheduleEvent = await ScheduleEventModel.create({
-      id,
+    const newTask = await TaskModel.create({
+      userId,
       title,
-      deadline,
-      tasks,
+      group,
     });
-
-    res.status(201).json(newScheduleEvent);
+    res.status(201).json(newTask);
   } catch (error) {
     // Handle errors during the creation of a new schedule event
     console.error("Error saving ScheduleEvent:", error);
@@ -92,9 +89,9 @@ const handlePostRequest = async (req: NextApiRequest, res: NextApiResponse) => {
 const handleGetRequest = async (req: any, res: NextApiResponse) => {
   //authenticate JWT token
   authenticateToken(req, res, () => {});
-  await getEvents(req, res, () => {});
-  const events = req.events;
-  res.status(200).json(events);
+  await fetchTaskMiddleware(req, res, () => {});
+  const tasks = req.tasks;
+  res.status(200).json(tasks);
 };
 
 /**
@@ -108,13 +105,11 @@ const handleDeleteRequest = async (
   res: NextApiResponse
 ) => {
   try {
-    const eventId = JSON.parse(req.body).id;
+    const taskId = JSON.parse(req.body).id;
 
     // Attempt to find the event by ID and delete it
-    const deletedEvent = await ScheduleEventModel.findOneAndDelete({
-      id: eventId,
-    });
-
+    const deletedEvent = await TaskModel.findByIdAndDelete(taskId);
+    console.log(deletedEvent);
     if (!deletedEvent) {
       // If the event with the given ID is not found, return a 404 status
       return res.status(404).json({ error: "Event not found" });

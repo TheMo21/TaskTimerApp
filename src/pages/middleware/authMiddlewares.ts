@@ -1,5 +1,5 @@
 import { secretKey } from "@/secret";
-import { verify } from "jsonwebtoken";
+import { JwtPayload, verify } from "jsonwebtoken";
 import { NextApiResponse } from "next";
 
 export const authenticateToken = (
@@ -13,8 +13,8 @@ export const authenticateToken = (
     const token = authHeader && authHeader.split(" ")[1];
 
     try {
-      const userId = verify(token, secretKey);
-      req.userId = userId;
+      const payload = verify(token, secretKey) as JwtPayload;
+      req.userId = payload.userId;
       next();
     } catch (error) {
       res.status(401).json({ error: error });

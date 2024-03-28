@@ -4,7 +4,7 @@ import ScheduleEvent from "../types/ScheduleEvent";
 
 // Define the ScheduleEvent schema
 const ScheduleEventSchema = new Schema({
-  userId: String,
+  userId: { type: Schema.Types.ObjectId, ref: "User" },
   title: String,
   deadline: String,
   tasks: Array<typeof Task>,
