@@ -1,7 +1,7 @@
 "use client";
 import { ChangeEvent, FormEvent, useState } from "react";
 
-import useFetchTasks from "../utils/useFetchEvents";
+import useFetchTasks from "../utils/useFetchTask";
 
 import useFormData from "../utils/useFormData";
 
@@ -12,8 +12,7 @@ export default function DashBoard() {
   // State for managing events
   const [tasks, fetchTasks, postTasks, deleteTasks] = useFetchTasks();
   //State for formData
-  const [formData, setFormData, handleFormInputChange, clearFormData] =
-    useFormData();
+  const [formData, handleFormInputChange, clearFormData] = useFormData();
 
   // State for managing the selected event index
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
