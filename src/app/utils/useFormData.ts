@@ -3,7 +3,6 @@ import Task from "../types/Task";
 
 export default function useFormData(): [
   Task,
-  Dispatch<SetStateAction<Task>>,
   (e: ChangeEvent<HTMLInputElement>) => void,
   () => void
 ] {
@@ -24,5 +23,5 @@ export default function useFormData(): [
   const clearFormData = () => {
     setFormData((prev) => ({ ...prev, title: "", group: "" }));
   };
-  return [formData, setFormData, handleFormInputChange, clearFormData];
+  return [formData, handleFormInputChange, clearFormData];
 }

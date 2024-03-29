@@ -28,9 +28,9 @@ export default async function handler(
         await handlePostRequest(req, res);
         break;
 
-      case "DELETE":
-        await handleDeleteRequest(req, res);
-        break;
+      //   case "DELETE":
+      //     await handleDeleteRequest(req, res);
+      //     break;
 
       default:
         // Return 405 Method Not Allowed if the HTTP method is not supported
@@ -115,26 +115,26 @@ const handleGetRequest = async (req: any, res: NextApiResponse) => {
  * @param req - Next.js API request object
  * @param res - Next.js API response object
  */
-const handleDeleteRequest = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
-  try {
-    const recordId = JSON.parse(req.body).id;
+// const handleDeleteRequest = async (
+//   req: NextApiRequest,
+//   res: NextApiResponse
+// ) => {
+//   try {
+//     const recordId = JSON.parse(req.body).id;
 
-    // Attempt to find the record by ID and delete it
-    const deletedRecord = await RecordModel.findByIdAndDelete(recordId);
-    console.log(deletedRecord);
-    if (!deletedRecord) {
-      // If the record with the given ID is not found, return a 404 status
-      return res.status(404).json({ error: "Record not found" });
-    }
+//     // Attempt to find the record by ID and delete it
+//     const deletedRecord = await RecordModel.findByIdAndDelete(recordId);
+//     console.log(deletedRecord);
+//     if (!deletedRecord) {
+//       // If the record with the given ID is not found, return a 404 status
+//       return res.status(404).json({ error: "Record not found" });
+//     }
 
-    // If the record is successfully deleted, return a success message
-    res.json({ message: "Record deleted successfully" });
-  } catch (error) {
-    // Handle errors during the deletion of a record
-    console.error("Error deleting record:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
+//     // If the record is successfully deleted, return a success message
+//     res.json({ message: "Record deleted successfully" });
+//   } catch (error) {
+//     // Handle errors during the deletion of a record
+//     console.error("Error deleting record:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };

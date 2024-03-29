@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import ScheduleEvent from "../types/ScheduleEvent";
 import { useRouter } from "next/navigation";
 import Task from "../types/Task";
 /**
