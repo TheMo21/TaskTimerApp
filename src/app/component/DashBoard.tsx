@@ -12,7 +12,8 @@ export default function DashBoard() {
   // State for managing events
   const [tasks, fetchTasks, postTasks, deleteTasks] = useFetchTasks();
   //State for formData
-  const [formData, setFormData] = useFormData();
+  const [formData, setFormData, handleFormInputChange, clearFormData] =
+    useFormData();
 
   // State for managing the selected event index
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -20,19 +21,12 @@ export default function DashBoard() {
   // State for controlling the display of the form
   const [showFrom, setShowForm] = useState(false);
 
-  const clearFormData = () => {
-    setFormData((prev) => ({ ...prev, title: "", group: "" }));
-  };
   // change events when submitting form
   const handleFormData = async (e: FormEvent) => {
     e.preventDefault();
     //hide form again
     setShowForm(false);
 
-    console.log(formData);
-    //create a task[]
-
-    //create a ScheduleEvent
     const newTask = {
       title: formData.title,
       group: formData.group,
@@ -44,14 +38,6 @@ export default function DashBoard() {
     fetchTasks();
 
     clearFormData();
-  };
-
-  const handleFormInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const fieldName = e.target.name;
-    const value = e.target.value;
-
-    setFormData((prev) => ({ ...prev, [fieldName]: value }));
-    console.log(formData);
   };
 
   return (

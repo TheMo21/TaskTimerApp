@@ -7,7 +7,6 @@ const UserSchema = new Schema({
   username: String,
   email: String,
   password: String,
-  events: [{ type: Schema.Types.ObjectId, ref: "ScheduleEvent" }],
 });
 
 // Create the Mongoose model for User

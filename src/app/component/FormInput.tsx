@@ -1,16 +1,23 @@
-import { HTMLInputTypeAttribute, ReactNode } from "react";
+import { ChangeEventHandler, HTMLInputTypeAttribute } from "react";
 
 interface Props {
+  id: string;
   name: string;
   type: HTMLInputTypeAttribute;
-  children: ReactNode;
-  onChange: any;
+  onChange?: ChangeEventHandler;
 }
-export default function Input({ name, type, children, onChange }: Props) {
+export default function Input({ id, name, type, onChange }: Props) {
   return (
     <>
-      <label htmlFor={name}>{children}</label>
-      <input type={type} name={name} id={name} onChange={onChange} />
+      <input
+        id={id}
+        type={type}
+        name={name}
+        placeholder={name}
+        onChange={onChange}
+        className="w-2/3 h-10 p-1 bg-slate-50 rounded-sm"
+        required
+      />
     </>
   );
 }

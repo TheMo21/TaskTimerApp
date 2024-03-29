@@ -20,3 +20,30 @@ body,
   visibility: visible;
   transform: translateX(0px);
 }
+
+.loading-button {
+  position: relative;
+}
+
+.loading-button:disabled::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-top: 2px solid #333; /* Change color as needed */
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite; /* Adjust animation duration and timing function */
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}

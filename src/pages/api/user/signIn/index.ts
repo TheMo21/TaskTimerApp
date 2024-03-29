@@ -55,6 +55,10 @@ const handlePostRequest = async (req: NextApiRequest, res: NextApiResponse) => {
     const bodyJson = JSON.parse(req.body);
     const { email, password } = bodyJson;
 
+    if (email == "" || password == "") {
+      res.status(401).json({ error: "Incorrect email or password" });
+    }
+
     const user = (await UserModel.findOne({ email: email })) as User | null;
     // Guard for existing users
     if (user && user.password === password) {

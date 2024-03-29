@@ -50,13 +50,10 @@ const handlePostRequest = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(409).json({ error: "User with the email already exists" });
       return;
     }
-
-    // Create a new ScheduleEvent document
     const newUser = await UserModel.create({
       username,
       email,
       password,
-      //TODO add empty array
     });
 
     res.status(201).json(newUser);

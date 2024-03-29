@@ -44,7 +44,7 @@ export default function useFetchTasks(): [
 
     //redirect to signIn if fetch failed
     console.log("redirecting");
-    push("/signIn");
+    push("/userAuth");
     return;
   };
 

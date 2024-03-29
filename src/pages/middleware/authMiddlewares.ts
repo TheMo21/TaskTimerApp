@@ -8,10 +8,8 @@ export const authenticateToken = (
   next: () => void
 ) => {
   const authHeader = req.headers.authorization;
-  console.log(authHeader);
   if (authHeader) {
     const token = authHeader && authHeader.split(" ")[1];
-
     try {
       const payload = verify(token, secretKey) as JwtPayload;
       req.userId = payload.userId;
