@@ -16,15 +16,15 @@ export default function useFetchRecord(): [
   const [records, setRecords] = useState<Record[]>([]);
 
   // API endpoint for records
-  const api = "http://localhost:3000/api/records";
+  const api = "http://localhost:3000/api/record";
   const token = localStorage.getItem("token");
-  const { push } = useRouter();
 
   /**
    * Fetches records from the API and updates the state.
    * @throws {Error} If the fetch operation fails.
    */
   const fetchRecords = async () => {
+    const { push } = useRouter();
     if (!token) {
       push("/userAuth");
     }
@@ -61,8 +61,11 @@ export default function useFetchRecord(): [
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: body,
+        body: JSON.stringify(body),
       });
+      if (res.status === 201) {
+        fetchRecords();
+      }
       if (res.status >= 400) {
         throw new Error("Failed to post record");
       }

@@ -62,6 +62,9 @@ export default function useFetchTasks(): [
       },
       body: body,
     });
+    if (res.status === 201) {
+      fetchTasks();
+    }
     if (400 <= res.status && res.status <= 499) {
       throw new Error("Failed to post task");
     }
@@ -81,6 +84,9 @@ export default function useFetchTasks(): [
       method: "DELETE",
       body: JSON.stringify(reqBody),
     });
+    if (res.status === 201) {
+      fetchTasks();
+    }
     if (400 <= res.status && res.status <= 499) {
       const json = await res.json();
       console.log(json.error);

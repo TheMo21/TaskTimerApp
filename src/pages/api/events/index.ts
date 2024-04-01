@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/app/utils/dbConnect";
-import { ScheduleEventModel } from "@/app/model/ScheduleEventModel";
 import { authenticateToken } from "@/pages/middleware/authMiddlewares";
 import { fetchTaskMiddleware } from "@/pages/middleware/fetchTasksMiddleware";
 import { TaskModel } from "@/app/model/TaskModel";
@@ -116,7 +115,7 @@ const handleDeleteRequest = async (
     }
 
     // If the event is successfully deleted, return a success message
-    res.json({ message: "Event deleted successfully" });
+    res.status(201).json({ message: "Event deleted successfully" });
   } catch (error) {
     // Handle errors during the deletion of a schedule event
     console.error("Error deleting ScheduleEvent:", error);

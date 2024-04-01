@@ -10,6 +10,7 @@ const recordSchema = new Schema<RecordType>({
 });
 
 const RecordModel =
-  mongoose.models["Task"] || mongoose.model<RecordType>("Task", recordSchema);
+  mongoose.models["Record"] ||
+  mongoose.model<RecordType>("Record", recordSchema);
 
 export default RecordModel;

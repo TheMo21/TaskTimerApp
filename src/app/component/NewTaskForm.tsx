@@ -13,9 +13,20 @@ export default function NewTaskForm({
   handleChange,
   className,
 }: Props) {
+  const form = document.getElementById("form") as HTMLFormElement;
+  const clearForm = () => {
+    form.reset();
+  };
   return (
     <div className={`bg-slate-300 ${className} transition-all`}>
-      <form className={`flex flex-col`} onSubmit={handleSubmit}>
+      <form
+        id="form"
+        className={`flex flex-col`}
+        onSubmit={(e) => {
+          handleSubmit(e);
+          clearForm();
+        }}
+      >
         <label htmlFor="title">Title</label>
         <input
           name="title"
@@ -33,7 +44,13 @@ export default function NewTaskForm({
           onChange={handleChange}
         />
         <button>submit</button>
-        <button type="button" onClick={handleClose}>
+        <button
+          type="button"
+          onClick={(e) => {
+            handleClose(e);
+            clearForm();
+          }}
+        >
           close
         </button>
       </form>

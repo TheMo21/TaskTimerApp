@@ -56,6 +56,7 @@ const handlePostRequest = async (req: any, res: NextApiResponse) => {
 
   try {
     const bodyJson = JSON.parse(req.body);
+    console.log(bodyJson);
 
     // Guard for requests without proper fields
     if (

@@ -31,10 +31,11 @@ export default function DashBoard() {
       group: formData.group,
     };
 
+    console.log(newTask);
+
     //send post request to api
     const res = await postTasks(JSON.stringify(newTask));
     console.log(res);
-    fetchTasks();
 
     clearFormData();
   };
@@ -58,7 +59,6 @@ export default function DashBoard() {
             }}
             handleDelete={() => {
               deleteTasks(_id);
-              fetchTasks();
             }}
           />
         ))}
@@ -75,7 +75,10 @@ export default function DashBoard() {
           handleSubmit={(e) => {
             handleFormData(e);
           }}
-          handleClose={() => setShowForm(false)}
+          handleClose={() => {
+            setShowForm(false);
+            clearFormData();
+          }}
           handleChange={handleFormInputChange}
           className={showFrom ? "show" : "hide"}
         />
