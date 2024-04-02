@@ -9,6 +9,7 @@ import NewTaskForm from "./NewTaskForm";
 import Task from "./Task";
 import useFetchRecord from "../utils/useFetchRecord";
 import Button from "./Button";
+import { format } from "date-fns/format";
 
 export default function DashBoard() {
   // State for managing events
@@ -44,9 +45,11 @@ export default function DashBoard() {
     clearFormData();
   };
 
+  //get data for the first
   useEffect(() => {
     fetchRecords();
-  }, [records]);
+    fetchTasks();
+  }, []);
 
   return (
     <>
@@ -67,6 +70,7 @@ export default function DashBoard() {
             handleDelete={() => {
               deleteTasks(_id);
             }}
+            postRecord={postRecord}
           />
         ))}
         <Button
@@ -94,14 +98,16 @@ export default function DashBoard() {
         />
         <table className="w-full p-1 ">
           <thead>
-            <th className="text-left">Date</th>
-            <th className="text-left">Title</th>
-            <th className="text-left">Group</th>
-            <th className="text-left">Time</th>
+            <tr>
+              <th className="text-left">Date</th>
+              <th className="text-left">Title</th>
+              <th className="text-left">Group</th>
+              <th className="text-left">Time</th>
+            </tr>
           </thead>
           <tbody>
             {records.map((record) => (
-              <tr>
+              <tr key={record._id}>
                 <td>{record.date}</td>
                 <td>{record.taskTitle}</td>
                 <td>{record.taskGroup}</td>

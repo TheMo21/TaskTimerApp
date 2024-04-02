@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/app/utils/dbConnect";
-import { authenticateToken } from "@/pages/middleware/authMiddlewares";
-import { fetchTaskMiddleware } from "@/pages/middleware/fetchTasksMiddleware";
+import { authenticateToken } from "@/middleware/authMiddlewares";
+import { fetchTaskMiddleware } from "@/middleware/fetchTasksMiddleware";
 import { TaskModel } from "@/app/model/TaskModel";
 
 /**

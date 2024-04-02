@@ -95,11 +95,6 @@ export default function useFetchTasks(): [
     return res;
   };
 
-  // Initializes events by fetching them when the component mounts
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
   // Returns the state and functions for fetching, posting, and deleting events
   return [tasks, fetchTasks, postTask, deleteTask];
 }

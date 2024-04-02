@@ -69,7 +69,7 @@ export default function SignIn({ api, handleSubmitError, goToSignIn }: Props) {
   };
 
   return (
-    <form className="w-1/3 h-1/2 p-7 flex flex-col gap-4 items-center rounded-md bg-white">
+    <form className="w-1/4 h-1/2 p-7 flex flex-col gap-4 items-center rounded-md bg-white">
       <h2 className="text-xl font-bold">Welcome Back!</h2>
       <FormInput
         id="email"

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/app/utils/dbConnect";
 import RecordModel from "@/app/model/RecordModel";
-import { authenticateToken } from "@/pages/middleware/authMiddlewares";
+import { authenticateToken } from "@/middleware/authMiddlewares";
 
 /**
  * Next.js API route handler for managing records.

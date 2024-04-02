@@ -1,17 +1,15 @@
 import { useStopwatch } from "react-timer-hook";
-import useFetchRecord from "../utils/useFetchRecord";
 import Record from "../types/RecordType";
 import { format } from "date-fns";
 
 interface Props {
   taskTitle: string;
   taskGroup: string;
+  postRecord: any;
 }
-export default function Timer({ taskTitle, taskGroup }: Props) {
+export default function Timer({ taskTitle, taskGroup, postRecord }: Props) {
   const { seconds, minutes, hours, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: false });
-
-  const [records, fetchRecords, postRecord] = useFetchRecord();
 
   const time = `${hours}:${minutes}:${seconds}`;
 

@@ -1,4 +1,4 @@
-import { FormEventHandler, MouseEventHandler } from "react";
+import { FormEventHandler, MouseEventHandler, useRef } from "react";
 import Button from "./Button";
 import FormInput from "./FormInput";
 
@@ -15,16 +15,20 @@ export default function NewTaskForm({
   handleChange,
   className,
 }: Props) {
-  const form = document.getElementById("form") as HTMLFormElement;
+  const formRef = useRef<HTMLFormElement>(null);
   const clearForm = () => {
-    form.reset();
+    const form = formRef?.current;
+    if (form) {
+      const form = formRef?.current;
+      form.reset();
+    }
   };
   return (
     <div
       className={`w-full h-full pt-4 flex justify-center bg-slate-100 ${className} transition-all`}
     >
       <form
-        id="form"
+        ref={formRef}
         className={`w-1/3 h-1/2 p-7 flex flex-col gap-4 items-center rounded-md bg-white`}
         onSubmit={(e) => {
           handleSubmit(e);
@@ -46,7 +50,7 @@ export default function NewTaskForm({
           onChange={handleChange}
           className={"w-full"}
         />
-        <Button className="w-full bg-purple-500 rounded-sm " type={"button"}>
+        <Button className="w-full bg-purple-500 rounded-sm " type={"submit"}>
           <span className="font-bold text-white">Submit</span>
         </Button>
         <Button

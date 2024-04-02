@@ -16,7 +16,7 @@ export default function useFetchRecord(): [
 
   // API endpoint for records
   const api = "/api/record";
-  const token = localStorage.getItem("token");
+
   const { push } = useRouter();
 
   /**
@@ -24,6 +24,7 @@ export default function useFetchRecord(): [
    * @throws {Error} If the fetch operation fails.
    */
   const fetchRecords = async () => {
+    const token = localStorage.getItem("token");
     if (!token) {
       //redirect to signIn if fetch failed
       console.log("redirecting");
@@ -55,6 +56,7 @@ export default function useFetchRecord(): [
    * @throws {Error} If the post operation fails.
    */
   const postRecord = async (body: BodyInit) => {
+    const token = localStorage.getItem("token");
     try {
       const res = await fetch(api, {
         method: "POST",

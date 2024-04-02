@@ -9,6 +9,7 @@ interface Props {
   group: string;
   onClick: MouseEventHandler;
   handleDelete: any;
+  postRecord: any;
 }
 export default function Task({
   className,
@@ -16,6 +17,7 @@ export default function Task({
   group,
   onClick,
   handleDelete,
+  postRecord,
 }: Props) {
   return (
     <div
@@ -38,7 +40,7 @@ export default function Task({
         <span>{group}</span>
       </div>
       <div className="flex items-center justify-center gap-1">
-        <Timer taskTitle={title} taskGroup={group} />
+        <Timer taskTitle={title} taskGroup={group} postRecord={postRecord} />
       </div>
     </div>
   );
