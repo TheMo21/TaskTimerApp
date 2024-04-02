@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import FormInput from "../component/FormInput";
+import Button from "./Button";
 
 interface signUpForm {
   username: string;
@@ -100,7 +101,7 @@ export default function SignUp({ api, handleSubmitError, goToSignUp }: Props) {
         }}
       />
 
-      <button
+      <Button
         type="button"
         className="w-2/3 h-10 rounded-sm font-bold text-white bg-purple-500 shadow-lg loading-button"
         onClick={() => {
@@ -110,15 +111,15 @@ export default function SignUp({ api, handleSubmitError, goToSignUp }: Props) {
         disabled={buttonIsLoading}
       >
         {buttonIsLoading ? "" : "Sign Up"}
-      </button>
+      </Button>
       <div className="w-2/3 h-10 flex justify-start">
-        <button
+        <Button
           type="button"
           className="p-2 bg-slate-50 rounded-sm"
           onClick={goToSignUp}
         >
           sign in
-        </button>
+        </Button>
       </div>
     </form>
   );

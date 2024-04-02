@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Record from "../types/RecordType";
 /**
  * Custom React hook for managing CRUD operations on records.
@@ -9,24 +9,26 @@ import Record from "../types/RecordType";
 export default function useFetchRecord(): [
   Record[],
   () => Promise<void>,
-  (body: BodyInit) => Promise<Response>,
-  (id: string) => Promise<Response>
+  (body: BodyInit) => Promise<Response>
 ] {
   // State to hold the list of records
   const [records, setRecords] = useState<Record[]>([]);
 
   // API endpoint for records
-  const api = "http://localhost:3000/api/record";
+  const api = "/api/record";
   const token = localStorage.getItem("token");
+  const { push } = useRouter();
 
   /**
    * Fetches records from the API and updates the state.
    * @throws {Error} If the fetch operation fails.
    */
   const fetchRecords = async () => {
-    const { push } = useRouter();
     if (!token) {
+      //redirect to signIn if fetch failed
+      console.log("redirecting");
       push("/userAuth");
+      return;
     }
     try {
       const res = await fetch(api, {
@@ -37,9 +39,8 @@ export default function useFetchRecord(): [
       if (res.status === 200) {
         const data = await res.json();
         setRecords(data);
+        console.log(records);
         return;
-      } else if (res.status === 401) {
-        push("/userAuth");
       }
     } catch (error) {
       console.error("Error fetching records:", error);
@@ -76,27 +77,27 @@ export default function useFetchRecord(): [
     }
   };
 
-  /**
-   * Deletes a record from the API by its ID.
-   * @param {string} id - The ID of the record to be deleted.
-   * @returns {Promise<Response>} The response from the server.
-   * @throws {Error} If the delete operation fails.
-   */
-  const deleteRecord = async (id: string) => {
-    try {
-      const res = await fetch(`${api}/${id}`, {
-        method: "DELETE",
-      });
-      if (res.status >= 400) {
-        throw new Error("Failed to delete record");
-      }
-      return res;
-    } catch (error) {
-      console.error("Error deleting record:", error);
-      throw error;
-    }
-  };
+  // /**
+  //  * Deletes a record from the API by its ID.
+  //  * @param {string} id - The ID of the record to be deleted.
+  //  * @returns {Promise<Response>} The response from the server.
+  //  * @throws {Error} If the delete operation fails.
+  //  */
+  // const deleteRecord = async (id: string) => {
+  //   try {
+  //     const res = await fetch(`${api}/${id}`, {
+  //       method: "DELETE",
+  //     });
+  //     if (res.status >= 400) {
+  //       throw new Error("Failed to delete record");
+  //     }
+  //     return res;
+  //   } catch (error) {
+  //     console.error("Error deleting record:", error);
+  //     throw error;
+  //   }
+  // };
 
   // Return the state and functions for fetching, posting, and deleting records
-  return [records, fetchRecords, postRecord, deleteRecord];
+  return [records, fetchRecords, postRecord];
 }

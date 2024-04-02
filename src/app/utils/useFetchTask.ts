@@ -16,7 +16,7 @@ export default function useFetchTasks(): [
   const [tasks, setTasks] = useState<Task[]>([]);
 
   // API endpoint for schedule events
-  const api = "http://localhost:3000/api/events";
+  const api = "/api/events";
 
   const { push } = useRouter();
 

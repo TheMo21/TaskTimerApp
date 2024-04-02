@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 import useFetchTasks from "../utils/useFetchTask";
 
@@ -7,12 +7,16 @@ import useFormData from "../utils/useFormData";
 
 import NewTaskForm from "./NewTaskForm";
 import Task from "./Task";
+import useFetchRecord from "../utils/useFetchRecord";
+import Button from "./Button";
 
 export default function DashBoard() {
   // State for managing events
   const [tasks, fetchTasks, postTasks, deleteTasks] = useFetchTasks();
   //State for formData
   const [formData, handleFormInputChange, clearFormData] = useFormData();
+
+  const [records, fetchRecords, postRecord] = useFetchRecord();
 
   // State for managing the selected event index
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -40,14 +44,17 @@ export default function DashBoard() {
     clearFormData();
   };
 
+  useEffect(() => {
+    fetchRecords();
+  }, [records]);
+
   return (
     <>
-      {/* Event side bar */}
-      <div className="basis-2/5 border-r overflow-y-scroll">
+      <div className="basis-2/5 border-r overflow-x-hidden overflow-y-scroll">
         {tasks.map(({ _id, title, group }, index) => (
           <Task
             className={
-              (selectedIndex === index ? " bg-blue-500 " : "") +
+              (selectedIndex === index ? " bg-purple-300 " : "") +
               "p-3 transition-colors duration-300"
             }
             title={title}
@@ -62,15 +69,18 @@ export default function DashBoard() {
             }}
           />
         ))}
-        <button
-          className="w-full bg-green-500"
+        <Button
+          type="button"
+          className="w-full bg-purple-500"
           onClick={() => setShowForm(true)}
         >
-          <h2 className="font-bold text-white">Add Event</h2>
-        </button>
+          <span className="font-bold text-white">Add Event</span>
+        </Button>
       </div>
 
-      <div className={`basis-3/5 flex flex-col items-center relative`}>
+      <div
+        className={`basis-3/5 flex flex-col items-center relative overflow-y-scroll`}
+      >
         <NewTaskForm
           handleSubmit={(e) => {
             handleFormData(e);
@@ -80,8 +90,26 @@ export default function DashBoard() {
             clearFormData();
           }}
           handleChange={handleFormInputChange}
-          className={showFrom ? "show" : "hide"}
+          className={`${showFrom ? "show" : "hide"} absolute`}
         />
+        <table className="w-full p-1 ">
+          <thead>
+            <th className="text-left">Date</th>
+            <th className="text-left">Title</th>
+            <th className="text-left">Group</th>
+            <th className="text-left">Time</th>
+          </thead>
+          <tbody>
+            {records.map((record) => (
+              <tr>
+                <td>{record.date}</td>
+                <td>{record.taskTitle}</td>
+                <td>{record.taskGroup}</td>
+                <td>{record.duration}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </>
   );

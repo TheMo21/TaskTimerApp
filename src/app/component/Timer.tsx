@@ -11,8 +11,8 @@ export default function Timer({ taskTitle, taskGroup }: Props) {
   const { seconds, minutes, hours, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: false });
 
-  const fetchRecord = useFetchRecord();
-  const postRecord = fetchRecord[2];
+  const [records, fetchRecords, postRecord] = useFetchRecord();
+
   const time = `${hours}:${minutes}:${seconds}`;
 
   return (

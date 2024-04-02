@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import FormInput from "../component/FormInput";
+import Button from "./Button";
 
 interface signInForm {
   email: string;
@@ -83,14 +84,14 @@ export default function SignIn({ api, handleSubmitError, goToSignIn }: Props) {
       <FormInput
         id="password"
         name="password"
-        type="text"
+        type="password"
         onChange={(e) => {
           const target = e.target as HTMLInputElement;
           setsignInForm((prev) => ({ ...prev, password: target.value }));
         }}
       />
 
-      <button
+      <Button
         type="button"
         className="w-2/3 h-10 rounded-sm font-bold text-white bg-purple-500 shadow-lg loading-button"
         onClick={() => {
@@ -100,15 +101,15 @@ export default function SignIn({ api, handleSubmitError, goToSignIn }: Props) {
         disabled={buttonIsLoading}
       >
         {buttonIsLoading ? "" : "Sign In"}
-      </button>
+      </Button>
       <div className="w-2/3 h-10">
-        <button
+        <Button
           type="button"
           className="p-2 bg-slate-50 rounded-sm"
           onClick={goToSignIn}
         >
           sign up
-        </button>
+        </Button>
       </div>
     </form>
   );

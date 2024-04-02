@@ -1,4 +1,6 @@
 import { FormEventHandler, MouseEventHandler } from "react";
+import Button from "./Button";
+import FormInput from "./FormInput";
 
 interface Props {
   handleSubmit: FormEventHandler<HTMLFormElement>;
@@ -18,33 +20,36 @@ export default function NewTaskForm({
     form.reset();
   };
   return (
-    <div className={`bg-slate-300 ${className} transition-all`}>
+    <div
+      className={`w-full h-full pt-4 flex justify-center bg-slate-100 ${className} transition-all`}
+    >
       <form
         id="form"
-        className={`flex flex-col`}
+        className={`w-1/3 h-1/2 p-7 flex flex-col gap-4 items-center rounded-md bg-white`}
         onSubmit={(e) => {
           handleSubmit(e);
           clearForm();
         }}
       >
-        <label htmlFor="title">Title</label>
-        <input
-          name="title"
-          id="title"
-          type="text"
-          required
+        <h2 className="text-xl font-bold">Enter Task</h2>
+        <FormInput
+          id={"title"}
+          name={"title"}
+          type={"text"}
           onChange={handleChange}
+          className={"w-full"}
         />
-        <label htmlFor="group">Group</label>
-        <input
-          name="group"
-          id="group"
-          type="text"
-          required
+        <FormInput
+          id={"group"}
+          name={"group"}
+          type={"text"}
           onChange={handleChange}
+          className={"w-full"}
         />
-        <button>submit</button>
-        <button
+        <Button className="w-full bg-purple-500 rounded-sm " type={"button"}>
+          <span className="font-bold text-white">Submit</span>
+        </Button>
+        <Button
           type="button"
           onClick={(e) => {
             handleClose(e);
@@ -52,7 +57,7 @@ export default function NewTaskForm({
           }}
         >
           close
-        </button>
+        </Button>
       </form>
     </div>
   );
