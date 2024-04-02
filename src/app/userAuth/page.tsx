@@ -5,8 +5,8 @@ import SignIn from "../component/SignIn";
 import SignUp from "../component/SignUp";
 
 export default function UserAuth() {
-  const signInURL = "http://localhost:3000/api/user/signIn";
-  const signUpURL = "http://localhost:3000/api/user/signUp";
+  const signInURL = "/api/user/signIn";
+  const signUpURL = "/api/user/signUp";
 
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>("");
