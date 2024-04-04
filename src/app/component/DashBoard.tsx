@@ -52,7 +52,7 @@ export default function DashBoard() {
   }, []);
 
   return (
-    <div className="w-full md:w-4/5 h-full flex flex-wrap md:flex-nowrap gap-5 md:gap-0 bg-white rounded-md shadow-lg overflow-hidden">
+    <div className="w-full md:w-4/5 h-min md:h-full flex flex-wrap md:flex-nowrap gap-5 md:gap-0 bg-white rounded-md shadow-lg md:overflow-hidden">
       <div className="w-full relative md:basis-2/5 border-r overflow-x-hidden overflow-y-scroll">
         {tasks.map(({ _id, title, group }, index) => (
           <Task
