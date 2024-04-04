@@ -11,10 +11,16 @@ interface signInForm {
 
 interface Props {
   api: string;
+  className: string;
   handleSubmitError: (message: string) => void;
   goToSignIn: () => void;
 }
-export default function SignIn({ api, handleSubmitError, goToSignIn }: Props) {
+export default function SignIn({
+  api,
+  className,
+  handleSubmitError,
+  goToSignIn,
+}: Props) {
   const [buttonIsLoading, setButtonIsLoading] = useState<boolean>(false);
 
   const [signInForm, setsignInForm] = useState<signInForm>({
@@ -69,7 +75,9 @@ export default function SignIn({ api, handleSubmitError, goToSignIn }: Props) {
   };
 
   return (
-    <form className="w-1/4 h-1/2 p-7 flex flex-col gap-4 items-center rounded-md bg-white">
+    <form
+      className={`${className} flex flex-col gap-4 items-center rounded-md bg-white`}
+    >
       <h2 className="text-xl font-bold">Welcome Back!</h2>
       <FormInput
         id="email"

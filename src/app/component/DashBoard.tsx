@@ -52,8 +52,8 @@ export default function DashBoard() {
   }, []);
 
   return (
-    <>
-      <div className="basis-2/5 border-r overflow-x-hidden overflow-y-scroll">
+    <div className="w-full md:w-4/5 h-full flex flex-wrap md:flex-nowrap gap-5 md:gap-0 bg-white rounded-md shadow-lg overflow-hidden">
+      <div className="w-full relative md:basis-2/5 border-r overflow-x-hidden overflow-y-scroll">
         {tasks.map(({ _id, title, group }, index) => (
           <Task
             className={
@@ -75,16 +75,11 @@ export default function DashBoard() {
         ))}
         <Button
           type="button"
-          className="w-full bg-purple-500"
+          className="w-full md:static bottom-0 bg-purple-500"
           onClick={() => setShowForm(true)}
         >
-          <span className="font-bold text-white">Add Event</span>
+          <span className="font-bold text-white">Add Task</span>
         </Button>
-      </div>
-
-      <div
-        className={`basis-3/5 flex flex-col items-center relative overflow-y-scroll`}
-      >
         <NewTaskForm
           handleSubmit={(e) => {
             handleFormData(e);
@@ -94,8 +89,14 @@ export default function DashBoard() {
             clearFormData();
           }}
           handleChange={handleFormInputChange}
-          className={`${showFrom ? "show" : "hide"} absolute`}
+          className={`${showFrom ? "show" : "hide"} absolute top-0`}
         />
+      </div>
+
+      <div
+        className={`md:basis-3/5 flex flex-col items-center overflow-y-scroll`}
+      >
+        <h2 className="text-xl font-bold">Records</h2>
         <table className="w-full p-1 ">
           <thead>
             <tr>
@@ -117,6 +118,6 @@ export default function DashBoard() {
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 }

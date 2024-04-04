@@ -29,7 +29,7 @@ export default function NewTaskForm({
     >
       <form
         ref={formRef}
-        className={`w-1/3 h-1/2 p-7 flex flex-col gap-4 items-center rounded-md bg-white`}
+        className={`w-full md:w-1/2 h-1/2 p-7 flex flex-col gap-4 items-center rounded-md bg-white`}
         onSubmit={(e) => {
           handleSubmit(e);
           clearForm();

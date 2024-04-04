@@ -21,6 +21,8 @@ export default function UserAuth() {
     }, 2000);
   };
 
+  const componentSize = "w-full md:w-1/4 md:h-1/2 p-7";
+
   return (
     <div className="w-full h-full flex justify-center items-center bg-slate-100">
       <PopUpAlert
@@ -30,12 +32,14 @@ export default function UserAuth() {
       {isSignIn ? (
         <SignIn
           api={signInURL}
+          className={componentSize}
           handleSubmitError={handleSubmitError}
           goToSignIn={() => setIsSignIn(false)}
         />
       ) : (
         <SignUp
           api={signUpURL}
+          className={componentSize}
           handleSubmitError={handleSubmitError}
           goToSignUp={() => setIsSignIn(true)}
         />
